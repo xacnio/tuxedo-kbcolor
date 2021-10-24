@@ -1,0 +1,26 @@
+#!/bin/bash
+reload_modules() {
+rmmod clevo_wmi
+rmmod clevo_acpi
+rmmod tuxedo_io
+rmmod uniwill_wmi
+rmmod tuxedo_keyboard
+modprobe clevo_wmi
+modprobe clevo_acpi
+modprobe tuxedo_io
+modprobe uniwill_wmi
+modprobe tuxedo_keyboard
+}
+
+change_kb_color() {
+    echo "options tuxedo_keyboard color=$1" > /etc/modprobe.d/tuxedo_keyboard.conf
+    reload_modules
+}
+
+case "$1" in
+'BLACK'|'RED'|'GREEN'|'BLUE'|'YELLOW'|'MAGENTA'|'CYAN'|'WHITE')
+change_kb_color "$1"
+;;
+*)
+echo "USAGE: $0 BLACK|RED|GREEN|BLUE|YELLOW|MAGENTA|CYAN|WHITE"
+esac
